@@ -26,8 +26,7 @@ public class VideoService {
     private Long channelId;
     private int viewCount=0;
 
-    // 강령현 추가
-    private String adList =""; // 등록된 광고 리스트 , 로 광고id 이어붙이기
+    private int commentCount = 0; // 댓글수
 
     @PreUpdate
     public void onPostEdited(){
@@ -96,40 +95,17 @@ public class VideoService {
         this.viewCount = viewCount;
     }
 
-
-    public String getAdList() {
-        return adList;
+    public int getCommentCount() {
+        return commentCount;
     }
 
-    public void setAdList(String adList) {
-        this.adList = adList;
+    public void setCommentCount(int commentCount) {
+        this.commentCount = commentCount;
     }
 
-    public void addAdList(String adId) {
-        if("".equals(adId) || adId.isEmpty()){
-            this.adList = adId;
-        }else{
-            StringBuilder sb = new StringBuilder(this.adList);
-            sb.append(",");
-            sb.append(adId);
-            this.adList = sb.toString();
-        }
-    }
-
-    public void minusAdList(String adId) {
-        StringTokenizer st = new StringTokenizer(this.adList, ",");
-        StringBuilder sb = new StringBuilder();
-        int countTokens = st.countTokens();
-        for (int i = 0; i < countTokens; i++) {
-            String token = st.nextToken();
-            if(!adId.equals(token)){
-                if(0 < sb.length()){
-                    sb.append(",");
-                }
-                sb.append(token);
-            }
-        }
-
-        this.adList = sb.toString();
+    public void addCommentCount(int commentCount) {
+        System.out.println("##### Before commentCount : " + commentCount);
+        this.commentCount += commentCount;
+        System.out.println("##### After commentCount : " + commentCount);
     }
 }

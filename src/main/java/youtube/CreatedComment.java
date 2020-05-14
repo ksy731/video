@@ -9,6 +9,8 @@ public class CreatedComment extends AbstractEvent {
     private Long videoId;
     private String contents;
 
+    private int commentCount = 0; // 댓글수
+
     public Long getCommentId() {
         return commentId;
     }
@@ -44,4 +46,14 @@ public class CreatedComment extends AbstractEvent {
     public void setContents(String contents) {
         this.contents = contents;
     }
+
+    public int getCommentCount() {
+        return commentCount;
+    }
+
+    public void setCommentCount(int commentCount) {
+        this.commentCount = commentCount;
+    }
+
+
 }

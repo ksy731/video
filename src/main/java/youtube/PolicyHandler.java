@@ -51,11 +51,31 @@ public class PolicyHandler{
     @StreamListener(KafkaProcessor.INPUT)
     public void wheneverCreatedComment_EditVideo(@Payload CreatedComment createdComment){
 
+        System.out.println("##### listener @@@@@@@@@@@@@@@@@@@@@@ : " + createdComment.toJson());
+
         if(createdComment.isMe()){
             if (createdComment.getCommentId() != null) {
                 System.out.println("##### listener EditVideo : " + createdComment.toJson());
+                videoServiceRepository.findById(createdComment.getVideoId()).ifPresent(videoService -> {
+                    if(createdComment.getChannelId() != null) {
+                        videoService.setChannelId(createdComment.getChannelId());
+                    } else {
+                        videoService.setChannelId(videoService.getChannelId());
+                    }
+                    videoService.setClientId(createdComment.getClientId());
+                    videoService.setVideoId(createdComment.getVideoId());
+
+                    videoService.addCommentCount(1); // 댓글 등록 시, 동영상 댓글 수 추가
+
+                    System.out.println("@@@@@@@@@@@@@@  videoService.getCommentCount() : " + videoService.getCommentCount());
+
+                    videoServiceRepository.save(videoService);
+
+                    System.out.println("##### listener EditVideo : Add Comment Count : " + videoService.toString());
+                });
             }
         }
     }
+
 
 }
