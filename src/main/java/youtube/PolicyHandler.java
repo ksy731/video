@@ -36,5 +36,26 @@ public class PolicyHandler{
         }
     }
 
+    // editedComment 실행 시
+    @StreamListener(KafkaProcessor.INPUT)
+    public void wheneverEditedComment_EditVideo(@Payload EditedComment editedComment){
+
+        if(editedComment.isMe()){
+            if(editedComment.getCommentId() != null) {
+                System.out.println("##### listener EditVideo : " + editedComment.toJson());
+            }
+        }
+    }
+
+    // createdComment 실행 시
+    @StreamListener(KafkaProcessor.INPUT)
+    public void wheneverCreatedComment_EditVideo(@Payload CreatedComment createdComment){
+
+        if(createdComment.isMe()){
+            if (createdComment.getCommentId() != null) {
+                System.out.println("##### listener EditVideo : " + createdComment.toJson());
+            }
+        }
+    }
 
 }
